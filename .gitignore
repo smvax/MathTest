@@ -67,3 +67,9 @@ vcpkg_installed/
 # test output & cache
 Testing/
 .cache/
+
+# лишние файлы и папки при компиляции
+.vs
+.vs/
+x64
+packages
