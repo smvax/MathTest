@@ -33,11 +33,11 @@ public:
 
     inline int getCounts() const noexcept;
     inline int getCorrectCount() const noexcept;
-    inline Task getTask(int index) const;
-    inline int getUserAnswer(int index) const;
+    inline Task getTask(int) const;
+    inline int getUserAnswer(int) const;
+    inline void setTask(int, const Task&) noexcept;
 
-    inline void setTask(int index, const Task& task) noexcept;
-    void submitAnswer(int index, int answer) noexcept;
+    void submitAnswer(int, int) noexcept;
     char calculateMark() const noexcept;
     void run() noexcept;
     void show_statistics() const noexcept;
@@ -55,7 +55,6 @@ inline Task MathTest::getTask(int index) const {
 inline int MathTest::getUserAnswer(int index) const {
     return _user_answers[index];
 }
-
 inline void MathTest::setTask(int index, const Task& task) noexcept {
     _tasks[index] = task;
 }
