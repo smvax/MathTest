@@ -123,15 +123,6 @@ MathTest::~MathTest() {
     delete[] _user_answers;
 }
 
-void MathTest::setTask(int index, const Task& task) {
-    if (index >= 0 && index < _counts) {
-        _tasks[index] = task;
-    }
-    else {
-        throw std::out_of_range("ERROR: index out of range!");
-    }
-}
-
 void MathTest::submitAnswer(int index, int answer) noexcept {
     _user_answers[index] = answer;
     if (_tasks[index].answer == answer) {

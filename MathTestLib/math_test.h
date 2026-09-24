@@ -36,7 +36,7 @@ public:
     inline Task getTask(int index) const;
     inline int getUserAnswer(int index) const;
 
-    void setTask(int index, const Task& task);
+    inline void setTask(int index, const Task& task) noexcept;
     void submitAnswer(int index, int answer) noexcept;
     char calculateMark() const noexcept;
     void run() noexcept;
@@ -54,4 +54,8 @@ inline Task MathTest::getTask(int index) const {
 }
 inline int MathTest::getUserAnswer(int index) const {
     return _user_answers[index];
+}
+
+inline void MathTest::setTask(int index, const Task& task) noexcept {
+    _tasks[index] = task;
 }
