@@ -15,6 +15,8 @@ struct Task {
     Task(int in1 = -100, int in2 = 100, char op = '\0', bool is_random = true);
 
     int calculateAnswer() noexcept;
+    void generateRandomDivision(int, int) noexcept;
+    void generateRandomOperation() noexcept;
 };
 
 class MathTest {

@@ -1,5 +1,46 @@
 #include "math_test.h"
 
+Task::Task(int in1, int in2, char op, bool is_random) {
+    if (op != '\0' && op != '+' && op != '-' && op != '*' && op != '/') {
+        throw std::invalid_argument("ERROR: operation char is not valid!");
+    }
+    if (is_random && in1 >= in2) {
+        throw std::invalid_argument("ERROR: range is not valid! Min must be < max!");
+    }
+
+    if (!is_random) {
+        if (op == '/') {
+            if (in2 == 0) {
+                throw std::invalid_argument("ERROR: division by zero!");
+            }
+            if ((in1 / in2) * in2 != in1) {
+                throw std::invalid_argument("ERROR: (num1 / num2) is not integer!");
+            }
+        }
+        num_1 = in1;
+        num_2 = in2;
+        operation = op;
+    }
+    else {
+        if (op == '\0') {
+            generateRandomOperation();
+        }
+        else {
+            operation = op;
+        }
+
+        if (operation == '/') {
+            generateRandomDivision(in1, in2);
+        }
+        else {
+            int range = in2 - in1 + 1;
+            num_1 = (std::rand() % range) + in1;
+            num_2 = (std::rand() % range) + in1;
+        }
+    }
+    answer = calculateAnswer();
+}
+
 int Task::calculateAnswer() noexcept {
     int ans = 0;
     switch (operation) {
@@ -19,71 +60,41 @@ int Task::calculateAnswer() noexcept {
     return ans;
 }
 
-Task::Task(int in1, int in2, char op, bool is_random) {
-    if (op != '\0' && op != '+' && op != '-' && op != '*' && op != '/') {
-        throw std::invalid_argument("ERROR: operation char is not valid!");
-    }
-    if (is_random && in1 >= in2) {
-        throw std::invalid_argument("ERROR: range is not valid! Min must be < max!");
-    }
-    int range = in2 - in1 + 1;
+void Task::generateRandomDivision(int n1, int n2) noexcept {
+    int root_neg = (n1 < 0) ? static_cast<int>(std::sqrt(std::abs(n1))) : 0;
+    int root_pos = (n2 > 0) ? static_cast<int>(std::sqrt(n2)) : 0;
 
-    if (op == '\0') {
-        int op_rander = std::rand() % 4;
-        switch (op_rander) {
-        case 0:
-            operation = '+';
-            break;
-        case 1:
-            operation = '-';
-            break;
-        case 2:
-            operation = '*';
-            break;
-        case 3:
-            operation = '/';
-            break;
-        }
+    int sub_min = -root_neg;
+    int sub_max = root_pos;
+    int sub_range = sub_max - sub_min + 1;
+
+    int range = n2 - n1 + 1;
+
+    do {
+        num_2 = (std::rand() % sub_range) + sub_min;
+    } while (num_2 == 0);
+
+    int target_quotient = (std::rand() % sub_range) + sub_min;
+
+    num_1 = num_2 * target_quotient;
+}
+
+void Task::generateRandomOperation() noexcept {
+    int op_rander = std::rand() % 4;
+    switch (op_rander) {
+    case 0:
+        operation = '+';
+        break;
+    case 1:
+        operation = '-';
+        break;
+    case 2:
+        operation = '*';
+        break;
+    case 3:
+        operation = '/';
+        break;
     }
-    else {
-        operation = op;
-    }
-    if (is_random) {
-        if (operation == '/') {
-            int root_neg = (in1 < 0) ? static_cast<int>(std::sqrt(std::abs(in1))) : 0;
-            int root_pos = (in2 > 0) ? static_cast<int>(std::sqrt(in2)) : 0;
-
-            int sub_min = -root_neg;
-            int sub_max = root_pos;
-            int sub_range = sub_max - sub_min + 1;
-
-            do {
-                num_2 = (std::rand() % sub_range) + sub_min;
-            } while (num_2 == 0);
-
-            int target_quotient = (std::rand() % sub_range) + sub_min;
-
-            num_1 = num_2 * target_quotient;
-        }
-        else {
-            num_1 = (std::rand() % range) + in1;
-            num_2 = (std::rand() % range) + in1;
-        }
-    }
-    else {
-        if (operation == '/') {
-            if (in2 == 0) {
-                throw std::invalid_argument("ERROR: division by zero!");
-            }
-            else if ((in1 / in2) * in2 != in1) {
-                throw std::invalid_argument("ERROR: num1 / num2 is not integer!");
-            }
-        }
-        num_1 = in1;
-        num_2 = in2;
-    }
-
-    answer = calculateAnswer();
 }
 
 MathTest::MathTest(int count) : _counts(count), _correct_count(0) {
