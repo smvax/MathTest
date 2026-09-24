@@ -27,9 +27,7 @@ private:
     int _correct_count;
 
 public:
-    MathTest(int count);
-    MathTest(int count, int min_val, int max_val);
-    MathTest(int count, int min_val, int max_val, char op);
+    MathTest(int count, int min_val = -100, int max_val = 100, char op = '\0');
 
     ~MathTest();
 

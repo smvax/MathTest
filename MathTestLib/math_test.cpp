@@ -97,39 +97,24 @@ void Task::generateRandomOperation() noexcept {
     }
 }
 
-MathTest::MathTest(int count) : _counts(count), _correct_count(0) {
-    if (count <= 0) {
-        throw std::invalid_argument("ERROR: Task count must be bigger than 0!");
-    }
-    _tasks = new Task[_counts];
-    _user_answers = new int[_counts] {0};
-    for (int i = 0; i < _counts; ++i) {
-        _tasks[i] = Task();
-    }
-}
-
-MathTest::MathTest(int count, int min_val, int max_val) : _counts(count), _correct_count(0) {
-    if (count <= 0) {
-        throw std::invalid_argument("ERROR: Task count must be bigger than 0!");
-    }
-    _tasks = new Task[_counts];
-    _user_answers = new int[_counts] {0};
-    for (int i = 0; i < _counts; ++i) {
-        _tasks[i] = Task(min_val, max_val);
-    }
-}
-
 MathTest::MathTest(int count, int min_val, int max_val, char op) : _counts(count), _correct_count(0) {
     if (count <= 0) {
         throw std::invalid_argument("ERROR: Task count must be bigger than 0!");
     }
-    if (op != '-' && op != '+' && op != '*' && op != '/') {
+    if (op != '-' && op != '+' && op != '*' && op != '/' && op != '\0') {
         throw std::invalid_argument("ERROR: operation char is not valid!");
     }
     _tasks = new Task[_counts];
     _user_answers = new int[_counts] {0};
-    for (int i = 0; i < _counts; ++i) {
-        _tasks[i] = Task(min_val, max_val, op, true);
+    if (op == '\0') {
+        for (int i = 0; i < _counts; ++i) {
+            _tasks[i] = Task(min_val, max_val, op, true);
+        }
+    }
+    else {
+        for (int i = 0; i < _counts; ++i) {
+            _tasks[i] = Task(min_val, max_val, op, false);
+        }
     }
 }
 
