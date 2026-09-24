@@ -1,6 +1,6 @@
 #include "math_test.h"
 
-int Task::calculateAnswer() {
+int Task::calculateAnswer() noexcept {
     int ans = 0;
     switch (operation) {
     case '+':
@@ -136,19 +136,14 @@ void MathTest::setTask(int index, const Task& task) {
     }
 }
 
-void MathTest::submitAnswer(int index, int answer) {
-    if (index < 0 || index >= _counts) {
-        throw std::out_of_range("ERROR: index out of range!");
-    }
-
+void MathTest::submitAnswer(int index, int answer) noexcept {
     _user_answers[index] = answer;
-
     if (_tasks[index].answer == answer) {
         _correct_count++;
     }
 }
 
-char MathTest::calculateMark() const {
+char MathTest::calculateMark() const noexcept {
     double percentage = (static_cast<double>(_correct_count) / _counts) * 100.0;
     if (percentage >= 90.0) {
         return 'A';
@@ -165,7 +160,7 @@ char MathTest::calculateMark() const {
     return 'F';
 }
 
-void MathTest::run() {
+void MathTest::run() noexcept {
     std::cout << "Math test with " << _counts << " questions:" << std::endl;
     for (int i = 0; i < _counts; ++i) {
         std::cout << "Question " << (i + 1) << ":" << std::endl
@@ -180,7 +175,7 @@ void MathTest::run() {
     show_statistics();
 }
 
-void MathTest::show_statistics() const {
+void MathTest::show_statistics() const noexcept {
     const int col_width = 9;
 
     //1: question number

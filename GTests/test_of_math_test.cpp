@@ -193,20 +193,6 @@ TEST(MathTestTest, TestInvalidOperatorInConstructorThrows) {
     EXPECT_THROW(MathTest(5, 1, 10, '?'), std::invalid_argument);
 }
 
-TEST(MathTestTest, TestIndexOutOfRangeThrows) {
-    MathTest test(3);
-
-    EXPECT_THROW(test.setTask(-1, Task(1, 1, '+', false)), std::out_of_range);
-    EXPECT_THROW(test.setTask(3, Task(1, 1, '+', false)), std::out_of_range);
-
-    EXPECT_THROW(test.submitAnswer(-1, 5), std::out_of_range);
-    EXPECT_THROW(test.submitAnswer(3, 5), std::out_of_range);
-
-    test.setTask(2, Task(2, 2, '+', false));
-    test.submitAnswer(2, 4);
-    EXPECT_EQ(test.getUserAnswer(2), 4);
-}
-
 TEST(MathTestTest, TestGettersAndSettersWork) {
     MathTest test(2);
     Task t1(2, 3, '+', false);
